@@ -1,0 +1,20 @@
+<project name="MDP-Logger" default="deploy" basedir=".">
+	<description>MDP-Logger</description>
+	
+	<!-- Directory layout -->
+	<property name="library-name" value="mdp-logger.jar" />
+	<property name="src-dir" location="src" />
+	<property name="obj-dir" location="obj" />
+	<property name="deploy-dir" location="deploy" />
+	
+	<target name="init" description="Initial setup">
+		<mkdir dir="${obj-dir}" />
+		<mkdir dir="${deploy-dir}" />
+	</target>
+	
+	<target name="deploy" depends="init">
+		<javac srcdir="${src-dir}" destdir="${obj-dir}" target="1.7" />
+		<jar destfile="${deploy-dir}/${library-name}" basedir="${obj-dir}" includes="**/*.class" />
+		<delete dir="${obj-dir}" />
+	</target>
+</project>

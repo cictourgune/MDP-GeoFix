@@ -1,0 +1,43 @@
+*****************
+** DESCRIPCIÓN **
+*****************
+Proyecto encargado de arreglar la máxima información posible relacionada con la GEOLOCALIZACIÓN de los hoteles.
+Actualmente (05/12/2014) sólo se intentan resolver las localidades de España ya que se disponen de los datos OFICIALES
+(sacados del INE). Pasos que se siguien:
+	
+	1. En los casos en que el valor de "gm_locality" sea NULL y "gm_aal4" no lo sea, se hará un "UPDATE gm_locality = gm_aal4"
+	
+	2. Se intenta hacer un matching de los diferentes estratos (country, aal1, aal2, localyt) con la tabla "ft_geo_matching" 
+	(tabla que alberga muchas de las casuísticas detectadas) para obtener el valor "gm_locality" oficial 
+	
+	3. Finalmente para el caso de ESPAÑA, de los "gm_locality" que aún quedan mal se hace UPDATE de los "gm_aal4" que
+	SÍ tengan coincidencia en "d_ine" para actualizar con dicho valor el "gm_locality"
+	
+	4. Se ejecuta un STORED PROCEDURE "mdp_crawler_geofix" para intentar corregir las localidades de países que
+	NO sea España
+
+
+***********************
+** EXPORTACIÓN (jar) **
+***********************
+(Desde Eclipse)
+
+1. Click derecho en el proyecto, "Export"
+2. Elegir "Runnable JAR File"
+3. Arriba elegir un "Launch Configuration" válido (previamente se ha tenido que crear uno para haber testado la aplicación)
+4. Seleccionar nombre del jar y directorio donde se generará
+
+*******************
+** CONFIGURACIÓN **
+*******************
+Fichero "properties/config.properties"
+
+
+***************
+** EJECUCIÓN **
+***************
+1. En el mismo directorio donde se aloja el fichero JAR, crear una carpeta denominada "properties" y albergar en ella 
+el fichero "config.properties" que se encuentra en el workspace en la carpeta del misno nombre.
+
+2. Llamada base: java -jar fichero.jar + params
+		2.1. param 1: new/old (dependiendo el entorno de la base de datos). OJO modificar el fichero "config.properties" según convenga
